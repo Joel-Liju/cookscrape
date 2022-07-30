@@ -1,0 +1,6 @@
+.env/
+links.txt
+recipes/
+metadata.txt
+markdownRecipes/
+__pycache__/
