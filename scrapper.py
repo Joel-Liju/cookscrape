@@ -36,7 +36,19 @@ def scrapeMode():
     print("Or you can make a new one")
     path = input()
     # f = open(filepath,"r")
-    file = open(BASE_PATH+"/"+path,"w+")
+    recipe = getItem(url)
+    
+    if not os.path.isdir(BASE_PATH+"/"+path):
+        os.mkdir(BASE_PATH+"/"+path)
+    file = open(BASE_PATH+"/"+path+'/'+recipe.getName().strip()+".txt","w+", encoding = "utf-8")
+    
+    file.write("Ingredients\n")
+    for num, ingredient in enumerate(recipe.getIngredients(),1):
+        file.write(str(num)+") "+ingredient+"\n")
+    file.write("Steps\n")
+    for num, step in enumerate(recipe.getRecipe(),1):
+        file.write(str(num)+") "+step + "\n")
+    file.close()
     # for line in f.readlines():
         # try:
             # page = Request(url, headers = {'User-Agent':'Chrome/51.0.2704.103'})
@@ -59,6 +71,9 @@ def scrapeMode():
         # except ValueError:
             # pass
     # f.close()
+
+def _recursivelyFindDir():
+    pass
 '''
 given a folder path, it will recursively find all the files within it
 '''

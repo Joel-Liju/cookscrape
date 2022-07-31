@@ -13,6 +13,8 @@ class _Item:
         return self.steps
     def getIngredients(self):
         return self.ingredients
+    def getName(self):
+        return self.name
     pass
     
 def getItem(url):
@@ -25,13 +27,23 @@ def getItem(url):
         # print(ingredient)
     # try:
     steps = []
-    try:#this happpens if there is no @graph in the microdata
-        if temp['@type'] == "Recipe":
-            temp["recipeInstructions"]
-    except  KeyError:
-        for item in temp['@graph']:
-            if item["@type"] =="Recipe":
-                temp = item
+    #first it can be a string or a list
+    def gettingRecipeItem(RecipeItem):
+        try:#this happpens if there is no @graph in the microdata
+            if "Recipe" in RecipeItem['@type']:
+                return RecipeItem
+        except  KeyError:
+            for item in RecipeItem['@graph']:
+                if item["@type"] =="Recipe":
+                    return item
+    if isinstance(temp, (list, tuple)):
+        # print(temp)
+        for t in temp:
+            if gettingRecipeItem(t) is not None:
+                temp = gettingRecipeItem(t)
+    else:#this means it is a dictionary
+        
+        temp = gettingRecipeItem(temp)
     
     if not type(temp["recipeInstructions"]) == type("words"):
         for step in temp["recipeInstructions"]:
