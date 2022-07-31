@@ -49,6 +49,7 @@ def scrapeMode():
     for num, step in enumerate(recipe.getRecipe(),1):
         file.write(str(num)+") "+step + "\n")
     file.close()
+    print("done")
     # for line in f.readlines():
         # try:
             # page = Request(url, headers = {'User-Agent':'Chrome/51.0.2704.103'})
