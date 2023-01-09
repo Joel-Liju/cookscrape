@@ -27,23 +27,27 @@ def getItem(url):
         # print(ingredient)
     # try:
     steps = []
+    prepTime, cookTime = [0,0]
     #first it can be a string or a list
-    def gettingRecipeItem(RecipeItem):
+    def gettingRecipeItem(word, RecipeItem):
         try:#this happpens if there is no @graph in the microdata
-            if "Recipe" in RecipeItem['@type']:
+            if word in RecipeItem['@type']:
                 return RecipeItem
         except  KeyError:
             for item in RecipeItem['@graph']:
-                if item["@type"] =="Recipe":
+                if item["@type"] ==word:
+                    prepTime = item["prepTime"]
+                    cookTime = item["cookTime"]
+                    print(cookTime)
                     return item
     if isinstance(temp, (list, tuple)):
         # print(temp)
         for t in temp:
-            if gettingRecipeItem(t) is not None:
-                temp = gettingRecipeItem(t)
+            if gettingRecipeItem("Recipe",t) is not None:
+                temp = gettingRecipeItem("Recipe",t)
     else:#this means it is a dictionary
         
-        temp = gettingRecipeItem(temp)
+        temp = gettingRecipeItem("Recipe",temp)
     
     if not type(temp["recipeInstructions"]) == type("words"):
         for step in temp["recipeInstructions"]:
@@ -53,6 +57,7 @@ def getItem(url):
                 steps.append(step)
     else:
         steps.append(temp["recipeInstructions"].split('.'))
+    
     return _Item(temp["name"],temp["recipeIngredient"],steps)
     # except:
         # print(temp["recipeInstructions"])
