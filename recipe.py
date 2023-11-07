@@ -5,6 +5,7 @@ class Recipe:
     name: str = ""
     ingredients: list = field(default_factory=list)
     steps: list = field(default_factory=list)
+    time: str = ""
 
     def makeRecipe(self, name, text) -> None:
         self.name = name

@@ -1,9 +1,6 @@
 from bs4 import BeautifulSoup
-import re
-import converter
+
 import os
-import json
-from urllib.request import Request, urlopen
 from microdataReader import getItem
 
 """
@@ -28,25 +25,29 @@ params : filepath -> this is the path to the file which is going to be read to b
     # print(step)
     # print(step['text'])
 BASE_PATH = './Recipes'
-def scrapeMode():
-    url = input("Please input the URL for you recipe \n")
-    print("please input the type of recipe out off.")
-    for dir in os.listdir(BASE_PATH):
-        print(dir)
-    print("Or you can make a new one")
-    path = input()
+def scrapeMode(url, path):
+    # url = input("Please input the URL for you recipe \n")
+    # print("please input the type of recipe out off.")
+    # for dir in os.listdir(BASE_PATH):
+    #     print(dir)
+    # print("Or you can make a new one")
+    # path = input()
     # f = open(filepath,"r")
     recipe = getItem(url)
     
     if not os.path.isdir(BASE_PATH+"/"+path):
         os.mkdir(BASE_PATH+"/"+path)
     file = open(BASE_PATH+"/"+path+'/'+recipe.getName().strip()+".txt","w+", encoding = "utf-8")
-    
+    file.write("URL\n")
+    file.write(url+"\n")
+    file.write("Times\n")
+    file.write("CookTime: "+str(recipe.cookTimes[0])+"\tPrepTime: "+str(recipe.cookTimes[1])+"\tTotalTime: "+str(recipe.cookTimes[2])+"\n")
     file.write("Ingredients\n")
     for num, ingredient in enumerate(recipe.getIngredients(),1):
         file.write(str(num)+") "+ingredient+"\n")
     file.write("Steps\n")
     for num, step in enumerate(recipe.getRecipe(),1):
+        print(step)
         file.write(str(num)+") "+step + "\n")
     file.close()
     print("done")
