@@ -3,6 +3,9 @@ import re
 @dataclass
 class Recipe:
     name: str = ""
+    servings: int = 0
+    prepTime str = "0:0"
+    cookTime str = "0:0"
     ingredients: list = field(default_factory=list)
     steps: list = field(default_factory=list)
     time: str = ""
